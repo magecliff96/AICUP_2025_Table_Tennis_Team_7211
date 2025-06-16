@@ -1,21 +1,12 @@
 # Prediction Pipeline
 
 ```bash
-├── train_info.csv          # Basic information for the training data
-├── test_info.csv           # Basic information for the test data
-|
-├── train_data/             # Training data CSV files
-│   ├── 1.txt
-│   ├── 2.txt
-│   ├── ...
-│   └── 1967.txt
-|
-├── test_data/              # Test data CSV files
-│   ├── 1968.txt
-│   ├── 1969.txt
-│   ├── ...
-│   └── 3411.txt
-|
+├── test_data_v2.csv        # intermdeiate file
+├── test_data.csv           # intermdeiate file
+├── train_data_v2.csv       # intermdeiate file
+├── train_data.csv          # intermdeiate file
+├── pca_feature.csv         # intermdeiate file
+├── avg_cycles_txt/         # intermdeiate folder
 ├── test_preprocess.py      # Preprocessing script for the test data
 ├── train_preprocess.py     # Preprocessing script for the training data
 ├── main_pred.py            # Main prediction script

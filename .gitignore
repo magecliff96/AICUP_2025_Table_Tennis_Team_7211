@@ -2,3 +2,6 @@
 *.csv
 dataset/*
 !dataset/*.py
+ML_based/avg_cycles_txt
+ML_based/*.csv
+

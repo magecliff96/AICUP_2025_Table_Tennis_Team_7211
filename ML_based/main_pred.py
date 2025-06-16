@@ -1,15 +1,12 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 import os
 from sklearn.decomposition import PCA
-from scipy.stats import skew, kurtosis, entropy, iqr
 from tqdm import tqdm
 import xgboost as xgb
 from collections import Counter
 from sklearn.model_selection import RandomizedSearchCV, StratifiedKFold
 from sklearn.metrics import roc_auc_score, make_scorer
-from sklearn.preprocessing import LabelEncoder
 
 def multiclass_roc_auc_micro(y_true, y_pred_proba):
     """Micro-average ROC AUC scorer for multiclass"""
@@ -17,7 +14,6 @@ def multiclass_roc_auc_micro(y_true, y_pred_proba):
 
 # 轉成 sklearn 用的 scorer
 micro_auc_scorer = make_scorer(multiclass_roc_auc_micro, needs_proba=True)
-
 
 data_dir = 'avg_cycles_txt'
 sensor_names = ['Ax', 'Ay', 'Az', 'Gx', 'Gy', 'Gz']
@@ -182,4 +178,4 @@ for col in predictions.columns:
     if col != 'unique_id':
         predictions[col] = predictions[col].round(3)
 
-predictions.to_csv("xgb_predictions.csv", index=False)
+predictions.to_csv("../csv_folder/handed99_predictions.csv", index=False)
