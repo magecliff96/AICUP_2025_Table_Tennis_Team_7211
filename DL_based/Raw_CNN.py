@@ -1,22 +1,12 @@
 import torch
-from torch.utils.data import Dataset
-import pandas as pd
-import numpy as np
-import os
-import torch
-from torch.utils.data import Dataset
-import pandas as pd
-import os
-from sklearn.metrics import roc_auc_score
-import matplotlib.pyplot as plt
-import numpy as np
-from sklearn.metrics import roc_auc_score, accuracy_score
-# from torch.optim.lr_scheduler import StepLR
-from torch.optim.lr_scheduler import LinearLR, CosineAnnealingLR, SequentialLR
-import torch
 import torch.nn as nn
-from torch.utils.data import random_split, DataLoader
-from sklearn.metrics import roc_auc_score
+from torch.utils.data import Dataset, random_split, DataLoader
+from torch.optim.lr_scheduler import LinearLR, CosineAnnealingLR, SequentialLR
+import pandas as pd
+import numpy as np
+import os
+import matplotlib.pyplot as plt
+from sklearn.metrics import roc_auc_score, accuracy_score
 
 class TableTennisRawDataset(Dataset):
     def __init__(self, info_csv, data_dir, seq_len=1024):
@@ -60,9 +50,6 @@ class TableTennisRawDataset(Dataset):
 
     def __getitem__(self, idx):
         return self.X[idx], self.y_gender[idx], self.y_handed[idx], self.y_years[idx], self.y_level[idx]
-
-
-import torch.nn as nn
 
 class CNN1DClassifier(nn.Module):
     def __init__(self, input_channels=6, seq_len=256):
@@ -219,11 +206,9 @@ def run_training(dataset, batch_size=8, num_epochs=20, lr=1e-3):
 
         criterion_years = nn.CrossEntropyLoss(weight=weight_years)
         criterion_level = nn.CrossEntropyLoss(weight=weight_level)
-
         
         criterion_bce = nn.BCEWithLogitsLoss()
         criterion_ce = nn.CrossEntropyLoss()
-        # scheduler = StepLR(optimizer, step_size=10, gamma=0.5)  # reduce LR by half every 5 epochs
         
         # Warm-up for 5 epochs, then cosine decay
         num_warmup_epochs = 5
@@ -256,25 +241,19 @@ def run_training(dataset, batch_size=8, num_epochs=20, lr=1e-3):
         plt.legend()
         plt.title("Training & Validation Loss")
         plt.grid()
-        plt.savefig("DCT_loss_curve.png")
+        plt.savefig("CNN_loss_curve.png")
         plt.show()
 
         evaluate_metrics(model, val_loader, torch.device("cuda" if torch.cuda.is_available() else "cpu"))
         models.append(model)
 
     return models
-  
-
-# train_info_path = "39_Training_Dataset/train_info.csv"
-# train_data_path = "39_Training_Dataset/train_data"  
-train_info_path = "train_info_balanced.csv"
-train_data_path = "train_data_balanced"  
 
 if __name__ == "__main__":
+    train_info_path = "../dataset/train_info_balanced.csv"
+    train_data_path = "../dataset/train_data_balanced"  
     dataset = TableTennisRawDataset(train_info_path, train_data_path)
     models = run_training(dataset, batch_size=32, num_epochs=70, lr=1e-3)
 
     for i in range(len(models)):
-        torch.save(models[i].state_dict(), f"model_weights{i}.pth")
-
-    # extract_dct_features_whole("39_Training_Dataset/train_data/1.txt")
+        torch.save(models[i].state_dict(), f"model_pth/model_weights{i}.pth")
