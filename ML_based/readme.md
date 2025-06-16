@@ -32,7 +32,7 @@ To reproduce predictions using the machine learning pipeline, follow these steps
 } > log.txt 2>&1
 ```
 
-This will generate prediction CSVs which can be used or merged for final submission.
+This will generate prediction CSVs which can be used or merged for final submission. Correct any path or create folders if needed.
 
 ---
 

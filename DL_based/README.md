@@ -30,7 +30,7 @@ Run the training script to train the models for:
 python RawCNN_train.py
 ```
 
-Trained model weights will be saved in the `model_pth/` directory.
+Trained model weights will be saved in the `model_pth/` directory. Correct any path in `__main__` or create folders if needed.
 
 > Note: We recommend using a GPU for training.
 

@@ -59,10 +59,13 @@ feature_df = pd.DataFrame(features, columns=columns)
 feature_df.to_csv("pca_feature.csv", index = None)
 
 # feature_df = pd.read_csv("pca_feature.csv")
-feature_df['unique_id'] = feature_df['unique_id'].astype("int")
+feature_df['unique_id'] = feature_df['unique_id'].astype(str)
 
 train_df = pd.read_csv("train_data_v2.csv")
 test_df = pd.read_csv("test_data_v2.csv")
+
+train_df['unique_id'] = train_df['unique_id'].astype(str)
+test_df['unique_id'] = test_df['unique_id'].astype(str)
 
 # 合併特徵進去
 train_df = train_df.merge(feature_df, on='unique_id', how='left')
