@@ -1,10 +1,10 @@
 import pandas as pd
 
 # === File paths ===
-csv_gender = "saved\gender95_handed99.csv"
-csv_handed = "saved\gender93_handed99.csv"
-csv_years = "saved\submission_yr.csv"
-csv_level = "saved\submission_lv.csv"
+csv_gender = "./gender95_handed99.csv"
+csv_handed = "./gender95_handed99.csv"
+csv_years = "./submission_yr.csv"
+csv_level = "./submission_lv.csv"
 output_csv = "combined_labels.csv"
 
 # === Define which columns to use from each CSV ===

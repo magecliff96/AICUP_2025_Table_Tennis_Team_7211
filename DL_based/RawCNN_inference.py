@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import torch
 from torch.utils.data import Dataset, DataLoader
-from Raw_CNN import CNN1DClassifier as CNN_model
+from RawCNN_train import CNN1DClassifier as CNN_model
 
 class TableTennisRawDataset(Dataset):
     def __init__(self, info_csv, data_dir, seq_len=1024):
@@ -41,8 +41,8 @@ class TableTennisRawDataset(Dataset):
 
 
 # === Inference and Save CSV ===
-def run_inference(train_info_path, train_data_path):
-    model_name = "model_weights1.pth"
+def run_inference(train_info_path, train_data_path, mode="gd"):
+    model_name = f"model_pth/model_weights_{mode}.pth"
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model = CNN_model()
     model.load_state_dict(torch.load(model_name, map_location=device))
@@ -84,11 +84,13 @@ def run_inference(train_info_path, train_data_path):
                 results.append(result)
 
     df = pd.DataFrame(results)
-    df.to_csv("submission.csv", index=False)
-    print("✅ Saved submission.csv!")
+    df.to_csv(f"../csv_folder/submission_{mode}_new.csv", index=False)
+    print(f"✅ Saved submission_{mode}.csv!")
 
 
 if __name__ == "__main__":
-    train_info_path = "39_Test_Dataset/test_info.csv"
-    train_data_path = "39_Test_Dataset/test_data"  
-    run_inference(train_info_path,train_data_path)
+    train_info_path = "../dataset/39_Test_Dataset/test_info.csv"
+    train_data_path = "../dataset/39_Test_Dataset/test_data"  
+    for i,v in enumerate(["yr", "lv", "gd"]):
+        run_inference(train_info_path,train_data_path,mode=v)
+    

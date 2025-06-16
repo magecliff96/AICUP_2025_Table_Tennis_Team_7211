@@ -7,68 +7,68 @@ from scipy.stats import skew, kurtosis, entropy, iqr
 
 Type = "train"
 
-info_df = pd.read_csv(f'{Type}_info.csv')
+info_df = pd.read_csv(f'../dataset/39_Training_Dataset/{Type}_info.csv')
 
-# # Original Figure
-base_output_dir = 'plots'
-os.makedirs(base_output_dir, exist_ok=True)
+# # # Original Figure
+# base_output_dir = 'plots'
+# os.makedirs(base_output_dir, exist_ok=True)
 
-for _, row in info_df.iterrows():
-    unique_id = row['unique_id']
-    mode = row['mode']
-    data_path = f'{Type}_data/{unique_id}.txt'
+# for _, row in info_df.iterrows():
+#     unique_id = row['unique_id']
+#     mode = row['mode']
+#     data_path = f'../dataset/39_Training_Dataset/{Type}_data/{unique_id}.txt'
 
-    # 要輸出的檔案路徑
-    mode_folder = os.path.join(base_output_dir, f'mode_{mode}')
-    os.makedirs(mode_folder, exist_ok=True)
-    output_path = os.path.join(mode_folder, f'{unique_id}.png')
+#     # 要輸出的檔案路徑
+#     mode_folder = os.path.join(base_output_dir, f'mode_{mode}')
+#     os.makedirs(mode_folder, exist_ok=True)
+#     output_path = os.path.join(mode_folder, f'{unique_id}.png')
 
-    # 如果檔案已存在就跳過
-    if os.path.exists(output_path):
-        print(f"⏩ Skipping ID {unique_id} (already exists)")
-        continue
-    # print(unique_id)
-    # 嘗試讀取 .txt 檔案
-    try:
-        data = np.loadtxt(data_path)
-    except Exception as e:
-        print(f"⚠️ Error loading {data_path}: {e}")
-        continue
+#     # 如果檔案已存在就跳過
+#     if os.path.exists(output_path):
+#         print(f"⏩ Skipping ID {unique_id} (already exists)")
+#         continue
+#     # print(unique_id)
+#     # 嘗試讀取 .txt 檔案
+#     try:
+#         data = np.loadtxt(data_path)
+#     except Exception as e:
+#         print(f"⚠️ Error loading {data_path}: {e}")
+#         continue
 
-    # 檢查是否有6欄
-    if data.shape[1] != 6:
-        print(f"⚠️ Unexpected shape in {data_path}: {data.shape}")
-        continue
+#     # 檢查是否有6欄
+#     if data.shape[1] != 6:
+#         print(f"⚠️ Unexpected shape in {data_path}: {data.shape}")
+#         continue
 
-    # 繪圖
-    plt.figure(figsize=(12, 6))
-    labels = ['Ax', 'Ay', 'Az', 'Gx', 'Gy', 'Gz']
-    for i in range(6):
-        plt.plot(data[:, i], label=labels[i])
+#     # 繪圖
+#     plt.figure(figsize=(12, 6))
+#     labels = ['Ax', 'Ay', 'Az', 'Gx', 'Gy', 'Gz']
+#     for i in range(6):
+#         plt.plot(data[:, i], label=labels[i])
     
-    plt.title(f'ID {unique_id} - Mode {mode}')
-    plt.xlabel('Time Step')
-    plt.ylabel('Sensor Value')
-    plt.legend(loc="best")
-    plt.grid(True)
+#     plt.title(f'ID {unique_id} - Mode {mode}')
+#     plt.xlabel('Time Step')
+#     plt.ylabel('Sensor Value')
+#     plt.legend(loc="best")
+#     plt.grid(True)
 
-    # 儲存圖片
-    plt.savefig(output_path)
-    plt.close()
+#     # 儲存圖片
+#     plt.savefig(output_path)
+#     plt.close()
 
 
 # Cycle Figure
 
-# 輸出資料夾
-output_dir = 'cycle_plots'
-os.makedirs(output_dir, exist_ok=True)
+# # 輸出資料夾
+# output_dir = 'cycle_plots'
+# os.makedirs(output_dir, exist_ok=True)
 
 # 輸入資料，直接使用原始資料
 period = []
 for _, row in info_df.iterrows():
     unique_id = row['unique_id']
     mode = row['mode']
-    data_path = f'{Type}_data/{unique_id}.txt'
+    data_path = f'../dataset/39_Training_Dataset/{Type}_data/{unique_id}.txt'
     
     # 載入揮拍資料
     try:
@@ -119,38 +119,36 @@ for _, row in info_df.iterrows():
 
     
     
-    # 儲存圖片
-    mode_dir = os.path.join(output_dir, f'mode_{mode}')
-    # if os.path.exists(os.path.join(mode_dir, f'{unique_id}_cycle.png')):
-    #     # print(f"⏩ Skipping ID {unique_id} (already exists)")
-    #     continue
-    # print(unique_id)
-    # 繪圖
-    plt.figure(figsize=(12, 6))
-    labels = ['Ax', 'Ay', 'Az', 'Gx', 'Gy', 'Gz']
-    for i in range(6):
-        plt.plot(mean_cycle[:, i], label=labels[i])
+#     # 儲存圖片
+#     mode_dir = os.path.join(output_dir, f'mode_{mode}')
+#     # if os.path.exists(os.path.join(mode_dir, f'{unique_id}_cycle.png')):
+#     #     # print(f"⏩ Skipping ID {unique_id} (already exists)")
+#     #     continue
+#     # print(unique_id)
+#     # 繪圖
+#     plt.figure(figsize=(12, 6))
+#     labels = ['Ax', 'Ay', 'Az', 'Gx', 'Gy', 'Gz']
+#     for i in range(6):
+#         plt.plot(mean_cycle[:, i], label=labels[i])
 
-    plt.title(f'ID {unique_id} - Avg Cycle (Mode {mode})')
-    plt.xlabel('Time Step (normalized)')
-    plt.ylabel('Sensor Value')
-    plt.legend()
-    plt.grid(True)
+#     plt.title(f'ID {unique_id} - Avg Cycle (Mode {mode})')
+#     plt.xlabel('Time Step (normalized)')
+#     plt.ylabel('Sensor Value')
+#     plt.legend()
+#     plt.grid(True)
     
 
-    os.makedirs(mode_dir, exist_ok=True)
-    plt.savefig(os.path.join(mode_dir, f'{unique_id}_cycle.png'))
-    # print(os.path.join(mode_dir, f'{unique_id}_cycle.png'))
-    plt.close()
+#     os.makedirs(mode_dir, exist_ok=True)
+#     plt.savefig(os.path.join(mode_dir, f'{unique_id}_cycle.png'))
+#     # print(os.path.join(mode_dir, f'{unique_id}_cycle.png'))
+#     plt.close()
 
-print("✅ 完成平均週期繪圖")
+# print("✅ 完成平均週期繪圖")
 
 
 training_df = info_df[['unique_id', 'mode', 'gender', 'hold racket handed', 'play years', 'level']].copy()
 training_df['period'] = period
 training_df.to_csv(f"{Type}_data.csv", index = None)
-
-
 
 # ----- 特徵提取函式 -----
 def extract_features(signal):
@@ -184,7 +182,8 @@ all_rows = []  # 用來儲存每筆資料的完整特徵（包含基本欄位與
 for _, row in info_df.iterrows():
     unique_id = row['unique_id']
     mode = row['mode']
-    data_path = f'train_data/{unique_id}.txt'
+    data_path = f'../dataset/39_Training_Dataset/{Type}_data/{unique_id}.txt'
+
 
     try:
         data = np.loadtxt(data_path)
@@ -267,7 +266,7 @@ def pad_cycle_head_repeat(data, target_len=173):
 
 for _, row in info_df.iterrows():
     unique_id = row['unique_id']
-    data_path = f'train_data/{unique_id}.txt'
+    data_path = f'../dataset/39_Training_Dataset/{Type}_data/{unique_id}.txt'
 
     try:
         data = np.loadtxt(data_path)
