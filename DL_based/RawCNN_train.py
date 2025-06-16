@@ -139,6 +139,8 @@ def train_loop(model, dataloader, optimizer, criterion_gender, criterion_handed,
         g_w, h_w, y_w, l_w = [0.1, 0.1, 1.0, 0.1]
     elif item == "lv":
         g_w, h_w, y_w, l_w = [0.1, 0.1, 0.1, 1.0]
+    elif item == "gd":
+        g_w, h_w, y_w, l_w = [1.0, 1.0, 1.0, 1.0]
     for x, gender, handed, years, level in dataloader:
         x, gender, handed, years, level = x.to(device), gender.to(device), handed.to(device), years.to(device), level.to(device)
 
@@ -165,6 +167,8 @@ def val_loop(model, dataloader, criterion_bce, criterion_ce, device, item):
         g_w, h_w, y_w, l_w = [0.1, 0.1, 1.0, 0.1]
     elif item == "lv":
         g_w, h_w, y_w, l_w = [0.1, 0.1, 0.1, 1.0]
+    elif item == "gd":
+        g_w, h_w, y_w, l_w = [1.0, 1.0, 1.0, 1.0]
     with torch.no_grad():
         for x, gender, handed, years, level in dataloader:
             x, gender, handed, years, level = x.to(device), gender.to(device), handed.to(device), years.to(device), level.to(device)
@@ -181,7 +185,7 @@ def val_loop(model, dataloader, criterion_bce, criterion_ce, device, item):
 # --- Train + validate + plot ---
 def run_training(dataset, batch_size=8, num_epochs=20, lr=1e-3):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    items = ["yr", "lv"]
+    items = ["yr", "lv", "gd"]
     models = []
     for item in items:
         model = CNN1DClassifier().to(device)
@@ -233,16 +237,16 @@ def run_training(dataset, batch_size=8, num_epochs=20, lr=1e-3):
 
             print(f"Epoch {epoch+1}/{num_epochs} - Train Loss: {train_loss:.4f} - Val Loss: {val_loss:.4f}")
 
-        # --- Plot ---
-        plt.plot(train_losses[10:], label="Train Loss")
-        plt.plot(val_losses[10:], label="Val Loss")
-        plt.xlabel("Epoch")
-        plt.ylabel("Loss")
-        plt.legend()
-        plt.title("Training & Validation Loss")
-        plt.grid()
-        plt.savefig("CNN_loss_curve.png")
-        plt.show()
+        # # --- Plot ---
+        # plt.plot(train_losses[10:], label="Train Loss")
+        # plt.plot(val_losses[10:], label="Val Loss")
+        # plt.xlabel("Epoch")
+        # plt.ylabel("Loss")
+        # plt.legend()
+        # plt.title("Training & Validation Loss")
+        # plt.grid()
+        # plt.savefig("CNN_loss_curve.png")
+        # plt.show()
 
         evaluate_metrics(model, val_loader, torch.device("cuda" if torch.cuda.is_available() else "cpu"))
         models.append(model)
@@ -255,5 +259,5 @@ if __name__ == "__main__":
     dataset = TableTennisRawDataset(train_info_path, train_data_path)
     models = run_training(dataset, batch_size=32, num_epochs=70, lr=1e-3)
 
-    for i in range(len(models)):
-        torch.save(models[i].state_dict(), f"model_pth/model_weights{i}.pth")
+    for i,v in enumerate(["yr", "lv", "gd"]):
+        torch.save(models[i].state_dict(), f"model_pth/model_weights_{v}.pth")
