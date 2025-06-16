@@ -1,7 +1,6 @@
 # 🧠 Machine Learning Based Prediction Pipeline
 
-This module uses a classic machine learning approach built upon handcrafted statistical features extracted from IMU swing cycle data. The pipeline focuses on transforming variable-length time-series sensor data into consistent, meaningful feature vectors, then training separate XGBoost classifiers for each prediction task: gender, handedness, years of experience, and playing level.
-
+This module uses a classic machine learning approach built upon handcrafted statistical features extracted from IMU swing cycle data. The pipeline focuses on transforming variable-length time-series sensor data into consistent, meaningful feature vectors, then training separate XGBoost classifiers for each prediction task: gender, handedness, years of experience, and playing level. A seperate folder named ML_Discretization_Exp also contains additional code used for testing ML models on data with discretization.
 ---
 
 ## 🔧 Prediction Pipeline Structure
