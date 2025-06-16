@@ -9,7 +9,6 @@ import pandas as pd
 import os
 from sklearn.metrics import roc_auc_score
 import matplotlib.pyplot as plt
-from scipy.fftpack import dct
 import numpy as np
 from sklearn.metrics import roc_auc_score, accuracy_score
 # from torch.optim.lr_scheduler import StepLR
